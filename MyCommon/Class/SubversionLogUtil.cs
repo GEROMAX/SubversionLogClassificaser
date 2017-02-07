@@ -101,6 +101,8 @@ namespace MyCommon
     /// </summary>
     public class ModifyFileInfo
     {
+        private static readonly string RENAME_TAG = " (コピー元のパス:";
+
         public String Text { get; set; }
         public String ModuleName
         {
@@ -136,7 +138,13 @@ namespace MyCommon
                 {
                     return string.Empty;
                 }
-                return Path.GetFullPath(this.Text.Substring(this.Text.IndexOf(":") + 1));
+
+                string path = this.Text.Substring(this.Text.IndexOf(":") + 1);
+                if (this.IsRenamed)
+                {
+                    path = path.Substring(0, path.IndexOf(ModifyFileInfo.RENAME_TAG));
+                }
+                return Path.GetFullPath(path);
             }
         }
         public bool HasValue
@@ -144,6 +152,17 @@ namespace MyCommon
             get
             {
                 return !String.IsNullOrEmpty(this.FileName);
+            }
+        }
+        public bool IsRenamed
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.Text))
+                {
+                    return false;
+                }
+                return this.Text.Contains(ModifyFileInfo.RENAME_TAG);
             }
         }
 

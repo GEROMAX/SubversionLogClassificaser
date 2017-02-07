@@ -303,7 +303,7 @@ namespace SubversionLogClassificaser
                         }
 
                         //現時点でコミット日時とその出力情報を設定
-                        string val = string.Concat(log.Revision.Text, "\r\n", log.CommitDate.Value.Value.ToString("yyyy/MM/dd HH:mm:ss"));
+                        string val = string.Concat(log.Revision.Text, "\r\n", log.CommitDate.Value.Value.ToString("yyyy/MM/dd HH:mm:ss"), "\r\n", log.Comment);
                         li.RequestSupport[mfi.FileName][requestName].CommitDate = log.CommitDate.Value;
                         li.RequestSupport[mfi.FileName][requestName].Value = val;
                     }

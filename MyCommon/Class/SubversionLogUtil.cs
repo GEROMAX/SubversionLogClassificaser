@@ -259,7 +259,7 @@ namespace MyCommon
             List<string> blocks = new List<string>();
             StringBuilder sb = new StringBuilder();
 
-            List<String> lines = new List<string>(logData.Split("\r\n".ToCharArray()));
+            List<String> lines = new List<string>(logData.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries));
             for (int i = 0; i < lines.Count; i++)
             {
                 if (Regex.IsMatch(lines[i], @"リビジョン:\s*\d*"))
@@ -328,7 +328,7 @@ namespace MyCommon
                     {
                         continue;
                     }
-                    lst.Add(new SubversionLogInfo(ri, ai, di, com, modFis));
+                    lst.Add(new SubversionLogInfo(ri, ai, di, com.Trim("\r\n".ToCharArray()), modFis));
                 }
             }
 

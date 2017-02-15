@@ -53,9 +53,9 @@ namespace SubversionLogClassificaser
             {
                 this.lblSelectedExtentions.Text = this.settingForm.SelectedTargetExtensions.Name;
             }
-            if (null != this.settingForm.SelectedCommentFilter)
+            if (null != this.settingForm.SelectedFilteringKeyWord)
             {
-                this.lblFilterName.Text = this.settingForm.SelectedCommentFilter.Name;
+                this.lblFilterName.Text = this.settingForm.SelectedFilteringKeyWord.Name;
             }
 
             //ツリーに見やすい色設定
@@ -98,10 +98,11 @@ namespace SubversionLogClassificaser
             }
 
             //ログ解析と表示
+            this.tvHide.Nodes.Clear();
             this.tvLog.Nodes.Clear();
             this.Logs = SubversionLogs.CreateSubversionLogs(data,
                                                             this.settingForm.SelectedTargetExtensions.Values,
-                                                            this.settingForm.SelectedCommentFilter == null ? new List<string>() : this.settingForm.SelectedCommentFilter.Values);
+                                                            this.settingForm.SelectedFilteringKeyWord == null ? new List<string>() : this.settingForm.SelectedFilteringKeyWord.Values);
             foreach (SubversionLogInfo log in this.Logs)
             {
                 TreeNode revParent = this.tvLog.Nodes.Add(log.Revision.Text);
@@ -112,6 +113,7 @@ namespace SubversionLogClassificaser
                 log.ModifyFiles.ForEach(mfi => revParent.Nodes.Add(mfi.FileName));
             }
             this.tvLog.ExpandAll();
+            this.TopLogShow();
 
             if (this.tvLog.Nodes.Count <= 0)
             {
@@ -141,12 +143,12 @@ namespace SubversionLogClassificaser
         /// <param name="e"></param>
         private void btnFilterSetting_Click(object sender, EventArgs e)
         {
-            if (!DialogResult.OK.Equals(this.settingForm.SettingCommentFilters()))
+            if (!DialogResult.OK.Equals(this.settingForm.SettingFilteringKeyWords()))
             {
                 return;
             }
 
-            this.lblFilterName.Text = this.settingForm.SelectedCommentFilter.Name;
+            this.lblFilterName.Text = this.settingForm.SelectedFilteringKeyWord.Name;
         }
 
         /// <summary>
@@ -321,6 +323,11 @@ namespace SubversionLogClassificaser
         /// <param name="e"></param>
         private void btnMakeUpdateList_Click(object sender, EventArgs e)
         {
+            if (null == this.Logs)
+            {
+                return;
+            }
+
             TreeSelectForm form = new TreeSelectForm();
             if (!DialogResult.OK.Equals(form.SelectTargetTree(this.Logs)))
             {
@@ -366,6 +373,21 @@ namespace SubversionLogClassificaser
             File.WriteAllText(sfd.FileName, csv.ToString(), Encoding.Default);
 
             MessageBox.Show("出力しました");
+        }
+
+        #endregion
+
+        #region メソッド
+
+        /// <summary>
+        /// 先頭ログの表示
+        /// </summary>
+        private void TopLogShow()
+        {
+            if (this.tvLog.Nodes.Count > 0)
+            {
+                this.tvLog.Nodes[0].EnsureVisible();
+            }
         }
 
         #endregion
@@ -530,5 +552,25 @@ namespace SubversionLogClassificaser
         }
 
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var lstHideNodes = new List<TreeNode>();
+            foreach (TreeNode node in this.tvLog.Nodes)
+            {
+                if (node.Level >= 1)
+                {
+                    continue;
+                }
+
+                if (!node.Nodes[0].Text.Contains("統計資料作成"))
+                {
+                    lstHideNodes.Add(node);
+                }
+            }
+            lstHideNodes.ForEach(node => this.tvHide.Nodes.Add((TreeNode)node.Clone()));
+            lstHideNodes.ForEach(node => this.tvLog.Nodes.Remove(node));
+            this.TopLogShow();
+        }
     }
 }

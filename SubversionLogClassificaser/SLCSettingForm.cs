@@ -54,18 +54,18 @@ namespace SubversionLogClassificaser
         }
 
         /// <summary>
-        /// フィルタリスト
+        /// キーワードリスト
         /// </summary>
-        private List<Settings> CommentFilters { get; set; }
+        private List<Settings> FilteringKeyWords { get; set; }
 
         /// <summary>
         /// 選択されているフィルタを取得します
         /// </summary>
-        public Settings SelectedCommentFilter
+        public Settings SelectedFilteringKeyWord
         {
             get
             {
-                return this.CommentFilters.Find(match => match.IsSelected);
+                return this.FilteringKeyWords.Find(match => match.IsSelected);
             }
         }
 
@@ -80,7 +80,7 @@ namespace SubversionLogClassificaser
         {
             this.RequestNames = this.LoadSettingFromFile("要件名設定");
             this.TargetExtensions = this.LoadSettingFromFile("対象拡張子設定");
-            this.CommentFilters = this.LoadSettingFromFile("フィルタ設定");
+            this.FilteringKeyWords = this.LoadSettingFromFile("キーワード設定");
         }
 
         /// <summary>
@@ -106,13 +106,13 @@ namespace SubversionLogClassificaser
         }
 
         /// <summary>
-        /// フィルタの設定
+        /// キーワードの設定
         /// </summary>
         /// <returns></returns>
-        public DialogResult SettingCommentFilters()
+        public DialogResult SettingFilteringKeyWords()
         {
-            this.Text = "フィルタ設定";
-            this.ActiveSettings = this.CommentFilters;
+            this.Text = "キーワード設定";
+            this.ActiveSettings = this.FilteringKeyWords;
             return this.StartSetting();
         }
 

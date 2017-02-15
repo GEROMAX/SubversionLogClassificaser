@@ -47,6 +47,8 @@
             this.btnUnLikageAll = new System.Windows.Forms.Button();
             this.btnMakeUpdateList = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.button1 = new System.Windows.Forms.Button();
+            this.tvHide = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // btnLoadLog
@@ -71,7 +73,7 @@
             this.tvLog.Name = "tvLog";
             this.tvLog.Size = new System.Drawing.Size(500, 709);
             this.tvLog.TabIndex = 1;
-            this.toolTip.SetToolTip(this.tvLog, "拡張子設定、フィルタ設定に基づいて読み込んだログ情報をリビジョン単位で表示します。");
+            this.toolTip.SetToolTip(this.tvLog, "拡張子設定、キーワード設定に基づいて読み込んだログ情報をリビジョン単位で表示します。");
             // 
             // btnRequestSetting
             // 
@@ -92,7 +94,7 @@
             this.btnTargetExtentionSetting.Size = new System.Drawing.Size(75, 23);
             this.btnTargetExtentionSetting.TabIndex = 3;
             this.btnTargetExtentionSetting.Text = "拡張子設定";
-            this.toolTip.SetToolTip(this.btnTargetExtentionSetting, "ログ情報をフィルタリングする際のファイル拡張子を設定します。");
+            this.toolTip.SetToolTip(this.btnTargetExtentionSetting, "ログ情報を読み込む際に対象とするファイルの拡張子を設定します。");
             this.btnTargetExtentionSetting.UseVisualStyleBackColor = true;
             this.btnTargetExtentionSetting.Click += new System.EventHandler(this.btnTargetExtentionSetting_Click);
             // 
@@ -181,12 +183,12 @@
             // 
             // btnFilterSetting
             // 
-            this.btnFilterSetting.Location = new System.Drawing.Point(323, 12);
+            this.btnFilterSetting.Location = new System.Drawing.Point(308, 12);
             this.btnFilterSetting.Name = "btnFilterSetting";
-            this.btnFilterSetting.Size = new System.Drawing.Size(75, 23);
+            this.btnFilterSetting.Size = new System.Drawing.Size(90, 23);
             this.btnFilterSetting.TabIndex = 12;
-            this.btnFilterSetting.Text = "フィルタ設定";
-            this.toolTip.SetToolTip(this.btnFilterSetting, "ログ情報をフィルタリングする際のキーワードを設定します。");
+            this.btnFilterSetting.Text = "キーワード設定";
+            this.toolTip.SetToolTip(this.btnFilterSetting, "ログ情報を読み込む際の抽出対象キーワードを設定します。(OR条件)");
             this.btnFilterSetting.UseVisualStyleBackColor = true;
             this.btnFilterSetting.Click += new System.EventHandler(this.btnFilterSetting_Click);
             // 
@@ -223,11 +225,31 @@
             this.btnMakeUpdateList.UseVisualStyleBackColor = true;
             this.btnMakeUpdateList.Click += new System.EventHandler(this.btnMakeUpdateList_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(562, 250);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // tvHide
+            // 
+            this.tvHide.Location = new System.Drawing.Point(391, 41);
+            this.tvHide.Name = "tvHide";
+            this.tvHide.Size = new System.Drawing.Size(121, 97);
+            this.tvHide.TabIndex = 17;
+            this.tvHide.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 762);
+            this.Controls.Add(this.tvHide);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnMakeUpdateList);
             this.Controls.Add(this.btnUnLikageAll);
             this.Controls.Add(this.lblFilterName);
@@ -272,6 +294,8 @@
         private System.Windows.Forms.Button btnUnLikageAll;
         private System.Windows.Forms.Button btnMakeUpdateList;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TreeView tvHide;
     }
 }
 

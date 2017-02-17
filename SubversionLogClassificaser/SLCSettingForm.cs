@@ -89,7 +89,7 @@ namespace SubversionLogClassificaser
         /// <returns></returns>
         public DialogResult SettingRequestNames()
         {
-            this.Text = "要件名設定";
+            this.Text = "要件選択";
             this.ActiveSettings = this.RequestNames;
             return this.StartSetting();
         }

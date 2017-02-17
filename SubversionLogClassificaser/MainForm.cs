@@ -98,20 +98,11 @@ namespace SubversionLogClassificaser
             }
 
             //ログ解析と表示
-            this.tvHide.Nodes.Clear();
             this.tvLog.Nodes.Clear();
             this.Logs = SubversionLogs.CreateSubversionLogs(data,
                                                             this.settingForm.SelectedTargetExtensions.Values,
                                                             this.settingForm.SelectedFilteringKeyWord == null ? new List<string>() : this.settingForm.SelectedFilteringKeyWord.Values);
-            foreach (SubversionLogInfo log in this.Logs)
-            {
-                TreeNode revParent = this.tvLog.Nodes.Add(log.Revision.Text);
-                revParent.Nodes.Add(log.Comment);
-                revParent.Nodes.Add(log.Author.Text);
-                revParent.Nodes.Add(log.CommitDate.Text);
-                revParent.Tag = log.Revision.Value;
-                log.ModifyFiles.ForEach(mfi => revParent.Nodes.Add(mfi.FileName));
-            }
+            this.Logs.ForEach(log => this.AddLogForTreeView(this.tvLog, log));
             this.tvLog.ExpandAll();
             this.TopLogShow();
 
@@ -137,11 +128,11 @@ namespace SubversionLogClassificaser
         }
 
         /// <summary>
-        /// フィルタ設定
+        /// キーワード設定
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnFilterSetting_Click(object sender, EventArgs e)
+        private void btnKeyWordSetting_Click(object sender, EventArgs e)
         {
             if (!DialogResult.OK.Equals(this.settingForm.SettingFilteringKeyWords()))
             {
@@ -201,6 +192,8 @@ namespace SubversionLogClassificaser
             reqParent.Nodes.Add((TreeNode)revParent.Clone());
             revParent.Collapse(true);
             this.tvLog.Nodes.Remove(revParent);
+
+            this.Logs.Find(log => log.Revision.Text.Equals(revParent.Text)).Conbined = true;
         }
 
         /// <summary>
@@ -226,6 +219,8 @@ namespace SubversionLogClassificaser
             }
             reqParent.ExpandAll();
             this.tvLog.Nodes.Clear();
+
+            this.Logs.ForEach(log => log.Conbined = true);
         }
 
         /// <summary>
@@ -247,6 +242,8 @@ namespace SubversionLogClassificaser
             }
             this.tvLog.Nodes.Add((TreeNode)reqParent.Clone());
             this.tvRequests.Nodes.Remove(reqParent);
+
+            this.Logs.Find(log => log.Revision.Text.Equals(reqParent.Text)).Conbined = false;
         }
 
         /// <summary>
@@ -271,6 +268,8 @@ namespace SubversionLogClassificaser
                 this.tvLog.Nodes.Add((TreeNode)node.Clone());
             }
             reqParent.Nodes.Clear();
+
+            this.Logs.ForEach(log => log.Conbined = false);
         }
 
         /// <summary>
@@ -378,6 +377,16 @@ namespace SubversionLogClassificaser
         #endregion
 
         #region メソッド
+
+        private void AddLogForTreeView(TreeView tv, SubversionLogInfo log)
+        {
+            TreeNode revParent = tv.Nodes.Add(log.Revision.Text);
+            revParent.Nodes.Add(log.Comment);
+            revParent.Nodes.Add(log.Author.Text);
+            revParent.Nodes.Add(log.CommitDate.Text);
+            revParent.Tag = log.Revision.Value;
+            log.ModifyFiles.ForEach(mfi => revParent.Nodes.Add(mfi.FileName));
+        }
 
         /// <summary>
         /// 先頭ログの表示
@@ -553,23 +562,35 @@ namespace SubversionLogClassificaser
 
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var lstHideNodes = new List<TreeNode>();
-            foreach (TreeNode node in this.tvLog.Nodes)
-            {
-                if (node.Level >= 1)
-                {
-                    continue;
-                }
 
-                if (!node.Nodes[0].Text.Contains("統計資料作成"))
-                {
-                    lstHideNodes.Add(node);
-                }
+        private void btnMoreFiltering_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.txtMoreFilter.Text))
+            {
+                return;
             }
-            lstHideNodes.ForEach(node => this.tvHide.Nodes.Add((TreeNode)node.Clone()));
-            lstHideNodes.ForEach(node => this.tvLog.Nodes.Remove(node));
+            var filters = this.txtMoreFilter.Text.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            //ログ解析と表示
+            this.tvLog.Nodes.Clear();
+            var filteringLogs = this.Logs.FindAll(log => !log.Conbined & log.ExistsWords(filters));
+            filteringLogs.ForEach(log => this.AddLogForTreeView(this.tvLog, log));
+            this.tvLog.ExpandAll();
+            this.TopLogShow();
+
+            if (this.tvLog.Nodes.Count <= 0)
+            {
+                MessageBox.Show("対象ログなし");
+            }
+        }
+
+        private void btnClearMoreFilter_Click(object sender, EventArgs e)
+        {
+            //ログ解析と表示
+            this.tvLog.Nodes.Clear();
+            var unbinedLogs = this.Logs.FindAll(log => !log.Conbined);
+            unbinedLogs.ForEach(log => this.AddLogForTreeView(this.tvLog, log));
+            this.tvLog.ExpandAll();
             this.TopLogShow();
         }
     }

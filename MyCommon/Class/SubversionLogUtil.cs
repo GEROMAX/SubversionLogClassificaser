@@ -198,6 +198,11 @@ namespace MyCommon
         public String Comment { get; set; }
 
         /// <summary>
+        /// 紐付け済みかどうかを取得または設定します
+        /// </summary>
+        public bool Conbined { get; set; }
+
+        /// <summary>
         /// 変更ファイル情報リスト
         /// </summary>
         public List<ModifyFileInfo> ModifyFiles { get; set; }
@@ -224,6 +229,16 @@ namespace MyCommon
             this.CommitDate = di;
             this.Comment = com;
             this.ModifyFiles = modFis;
+        }
+
+        /// <summary>
+        /// 単語が全て含まれるか判定します
+        /// </summary>
+        /// <param name="words">単語リスト</param>
+        /// <returns></returns>
+        public bool ExistsWords(List<string> words)
+        {
+            return words.TrueForAll(word => this.Comment.Contains(word));
         }
     }
 

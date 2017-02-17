@@ -42,13 +42,15 @@
             this.btnLinkageALL = new System.Windows.Forms.Button();
             this.lblSelectedRequestsName = new System.Windows.Forms.Label();
             this.lblSelectedExtentions = new System.Windows.Forms.Label();
-            this.btnFilterSetting = new System.Windows.Forms.Button();
+            this.btnKeyWordSetting = new System.Windows.Forms.Button();
             this.lblFilterName = new System.Windows.Forms.Label();
             this.btnUnLikageAll = new System.Windows.Forms.Button();
             this.btnMakeUpdateList = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.button1 = new System.Windows.Forms.Button();
             this.tvHide = new System.Windows.Forms.TreeView();
+            this.txtMoreFilter = new System.Windows.Forms.TextBox();
+            this.btnMoreFiltering = new System.Windows.Forms.Button();
+            this.btnClearMoreFilter = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnLoadLog
@@ -69,21 +71,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvLog.BackColor = System.Drawing.SystemColors.Window;
             this.tvLog.HideSelection = false;
-            this.tvLog.Location = new System.Drawing.Point(12, 41);
+            this.tvLog.Location = new System.Drawing.Point(12, 70);
             this.tvLog.Name = "tvLog";
-            this.tvLog.Size = new System.Drawing.Size(500, 709);
+            this.tvLog.Size = new System.Drawing.Size(500, 680);
             this.tvLog.TabIndex = 1;
             this.toolTip.SetToolTip(this.tvLog, "拡張子設定、キーワード設定に基づいて読み込んだログ情報をリビジョン単位で表示します。");
             // 
             // btnRequestSetting
             // 
             this.btnRequestSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRequestSetting.Location = new System.Drawing.Point(672, 12);
+            this.btnRequestSetting.Location = new System.Drawing.Point(672, 41);
             this.btnRequestSetting.Name = "btnRequestSetting";
             this.btnRequestSetting.Size = new System.Drawing.Size(75, 23);
             this.btnRequestSetting.TabIndex = 2;
-            this.btnRequestSetting.Text = "要件設定";
-            this.toolTip.SetToolTip(this.btnRequestSetting, "ログ情報の紐付け先要件を設定します。");
+            this.btnRequestSetting.Text = "要件選択";
+            this.toolTip.SetToolTip(this.btnRequestSetting, "ログ情報の紐付け先要件を選択します。");
             this.btnRequestSetting.UseVisualStyleBackColor = true;
             this.btnRequestSetting.Click += new System.EventHandler(this.btnRequestSetting_Click);
             // 
@@ -103,16 +105,16 @@
             this.tvRequests.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvRequests.HideSelection = false;
-            this.tvRequests.Location = new System.Drawing.Point(672, 41);
+            this.tvRequests.Location = new System.Drawing.Point(672, 70);
             this.tvRequests.Name = "tvRequests";
-            this.tvRequests.Size = new System.Drawing.Size(500, 709);
+            this.tvRequests.Size = new System.Drawing.Size(500, 680);
             this.tvRequests.TabIndex = 4;
             this.toolTip.SetToolTip(this.tvRequests, "要件と、それに紐付けられたリビジョンを表示します。");
             // 
             // btnLinkage
             // 
             this.btnLinkage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLinkage.Location = new System.Drawing.Point(518, 41);
+            this.btnLinkage.Location = new System.Drawing.Point(518, 70);
             this.btnLinkage.Name = "btnLinkage";
             this.btnLinkage.Size = new System.Drawing.Size(148, 100);
             this.btnLinkage.TabIndex = 6;
@@ -153,7 +155,7 @@
             // btnLinkageALL
             // 
             this.btnLinkageALL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLinkageALL.Location = new System.Drawing.Point(518, 147);
+            this.btnLinkageALL.Location = new System.Drawing.Point(518, 176);
             this.btnLinkageALL.Name = "btnLinkageALL";
             this.btnLinkageALL.Size = new System.Drawing.Size(148, 50);
             this.btnLinkageALL.TabIndex = 9;
@@ -166,7 +168,7 @@
             // 
             this.lblSelectedRequestsName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSelectedRequestsName.AutoSize = true;
-            this.lblSelectedRequestsName.Location = new System.Drawing.Point(753, 17);
+            this.lblSelectedRequestsName.Location = new System.Drawing.Point(753, 46);
             this.lblSelectedRequestsName.Name = "lblSelectedRequestsName";
             this.lblSelectedRequestsName.Size = new System.Drawing.Size(41, 12);
             this.lblSelectedRequestsName.TabIndex = 10;
@@ -181,16 +183,16 @@
             this.lblSelectedExtentions.TabIndex = 11;
             this.lblSelectedExtentions.Text = "未選択";
             // 
-            // btnFilterSetting
+            // btnKeyWordSetting
             // 
-            this.btnFilterSetting.Location = new System.Drawing.Point(308, 12);
-            this.btnFilterSetting.Name = "btnFilterSetting";
-            this.btnFilterSetting.Size = new System.Drawing.Size(90, 23);
-            this.btnFilterSetting.TabIndex = 12;
-            this.btnFilterSetting.Text = "キーワード設定";
-            this.toolTip.SetToolTip(this.btnFilterSetting, "ログ情報を読み込む際の抽出対象キーワードを設定します。(OR条件)");
-            this.btnFilterSetting.UseVisualStyleBackColor = true;
-            this.btnFilterSetting.Click += new System.EventHandler(this.btnFilterSetting_Click);
+            this.btnKeyWordSetting.Location = new System.Drawing.Point(308, 12);
+            this.btnKeyWordSetting.Name = "btnKeyWordSetting";
+            this.btnKeyWordSetting.Size = new System.Drawing.Size(90, 23);
+            this.btnKeyWordSetting.TabIndex = 12;
+            this.btnKeyWordSetting.Text = "キーワード設定";
+            this.toolTip.SetToolTip(this.btnKeyWordSetting, "ログ情報を読み込む際の抽出対象キーワードを設定します。(OR条件)");
+            this.btnKeyWordSetting.UseVisualStyleBackColor = true;
+            this.btnKeyWordSetting.Click += new System.EventHandler(this.btnKeyWordSetting_Click);
             // 
             // lblFilterName
             // 
@@ -225,35 +227,54 @@
             this.btnMakeUpdateList.UseVisualStyleBackColor = true;
             this.btnMakeUpdateList.Click += new System.EventHandler(this.btnMakeUpdateList_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(562, 250);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // tvHide
             // 
-            this.tvHide.Location = new System.Drawing.Point(391, 41);
+            this.tvHide.Location = new System.Drawing.Point(391, 70);
             this.tvHide.Name = "tvHide";
             this.tvHide.Size = new System.Drawing.Size(121, 97);
             this.tvHide.TabIndex = 17;
             this.tvHide.Visible = false;
+            // 
+            // txtMoreFilter
+            // 
+            this.txtMoreFilter.Location = new System.Drawing.Point(12, 43);
+            this.txtMoreFilter.Name = "txtMoreFilter";
+            this.txtMoreFilter.Size = new System.Drawing.Size(363, 19);
+            this.txtMoreFilter.TabIndex = 18;
+            // 
+            // btnMoreFiltering
+            // 
+            this.btnMoreFiltering.Location = new System.Drawing.Point(381, 41);
+            this.btnMoreFiltering.Name = "btnMoreFiltering";
+            this.btnMoreFiltering.Size = new System.Drawing.Size(75, 23);
+            this.btnMoreFiltering.TabIndex = 19;
+            this.btnMoreFiltering.Text = "絞込み";
+            this.btnMoreFiltering.UseVisualStyleBackColor = true;
+            this.btnMoreFiltering.Click += new System.EventHandler(this.btnMoreFiltering_Click);
+            // 
+            // btnClearMoreFilter
+            // 
+            this.btnClearMoreFilter.Location = new System.Drawing.Point(462, 41);
+            this.btnClearMoreFilter.Name = "btnClearMoreFilter";
+            this.btnClearMoreFilter.Size = new System.Drawing.Size(50, 23);
+            this.btnClearMoreFilter.TabIndex = 20;
+            this.btnClearMoreFilter.Text = "クリア";
+            this.btnClearMoreFilter.UseVisualStyleBackColor = true;
+            this.btnClearMoreFilter.Click += new System.EventHandler(this.btnClearMoreFilter_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 762);
+            this.Controls.Add(this.btnClearMoreFilter);
+            this.Controls.Add(this.btnMoreFiltering);
+            this.Controls.Add(this.txtMoreFilter);
             this.Controls.Add(this.tvHide);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnMakeUpdateList);
             this.Controls.Add(this.btnUnLikageAll);
             this.Controls.Add(this.lblFilterName);
-            this.Controls.Add(this.btnFilterSetting);
+            this.Controls.Add(this.btnKeyWordSetting);
             this.Controls.Add(this.lblSelectedExtentions);
             this.Controls.Add(this.lblSelectedRequestsName);
             this.Controls.Add(this.btnLinkageALL);
@@ -289,13 +310,15 @@
         private System.Windows.Forms.Button btnLinkageALL;
         private System.Windows.Forms.Label lblSelectedRequestsName;
         private System.Windows.Forms.Label lblSelectedExtentions;
-        private System.Windows.Forms.Button btnFilterSetting;
+        private System.Windows.Forms.Button btnKeyWordSetting;
         private System.Windows.Forms.Label lblFilterName;
         private System.Windows.Forms.Button btnUnLikageAll;
         private System.Windows.Forms.Button btnMakeUpdateList;
         private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TreeView tvHide;
+        private System.Windows.Forms.TextBox txtMoreFilter;
+        private System.Windows.Forms.Button btnMoreFiltering;
+        private System.Windows.Forms.Button btnClearMoreFilter;
     }
 }
 

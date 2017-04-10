@@ -213,14 +213,17 @@ namespace SubversionLogClassificaser
             {
                 reqParent = reqParent.Parent;
             }
+            var lstConbine = new List<string>();
             foreach (TreeNode node in this.tvLog.Nodes)
             {
                 reqParent.Nodes.Add((TreeNode)node.Clone());
+                lstConbine.Add(node.Text);
             }
             reqParent.ExpandAll();
             this.tvLog.Nodes.Clear();
 
-            this.Logs.ForEach(log => log.Conbined = true);
+            this.Logs.FindAll(log => lstConbine.Contains(log.Revision.Text)).ForEach(matchLog => matchLog.Conbined = true);
+            //this.Logs.ForEach(log => log.Conbined = true);
         }
 
         /// <summary>
@@ -372,6 +375,61 @@ namespace SubversionLogClassificaser
             File.WriteAllText(sfd.FileName, csv.ToString(), Encoding.Default);
 
             MessageBox.Show("出力しました");
+        }
+
+        /// <summary>
+        /// 検索ワードKeyDown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtMoreFilter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keys.Enter.Equals(e.KeyCode))
+            {
+                this.btnMoreFiltering.PerformClick();
+            }
+        }
+
+        /// <summary>
+        /// 絞込み
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnMoreFiltering_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.txtMoreFilter.Text))
+            {
+                return;
+            }
+            var filters = this.txtMoreFilter.Text.Replace("　", " ").Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            //ログ解析と表示
+            this.tvLog.Nodes.Clear();
+            var filteringLogs = this.Logs.FindAll(log => !log.Conbined & log.ExistsWords(filters));
+            filteringLogs.ForEach(log => this.AddLogForTreeView(this.tvLog, log));
+            this.tvLog.ExpandAll();
+            this.TopLogShow();
+
+            if (this.tvLog.Nodes.Count <= 0)
+            {
+                MessageBox.Show("見つかりません。");
+            }
+        }
+
+        /// <summary>
+        /// 絞込みクリア
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClearMoreFilter_Click(object sender, EventArgs e)
+        {
+            //ログ解析と表示
+            this.txtMoreFilter.Clear();
+            this.tvLog.Nodes.Clear();
+            var unbinedLogs = this.Logs.FindAll(log => !log.Conbined);
+            unbinedLogs.ForEach(log => this.AddLogForTreeView(this.tvLog, log));
+            this.tvLog.ExpandAll();
+            this.TopLogShow();
         }
 
         #endregion
@@ -561,37 +619,5 @@ namespace SubversionLogClassificaser
         }
 
         #endregion
-
-
-        private void btnMoreFiltering_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(this.txtMoreFilter.Text))
-            {
-                return;
-            }
-            var filters = this.txtMoreFilter.Text.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            //ログ解析と表示
-            this.tvLog.Nodes.Clear();
-            var filteringLogs = this.Logs.FindAll(log => !log.Conbined & log.ExistsWords(filters));
-            filteringLogs.ForEach(log => this.AddLogForTreeView(this.tvLog, log));
-            this.tvLog.ExpandAll();
-            this.TopLogShow();
-
-            if (this.tvLog.Nodes.Count <= 0)
-            {
-                MessageBox.Show("対象ログなし");
-            }
-        }
-
-        private void btnClearMoreFilter_Click(object sender, EventArgs e)
-        {
-            //ログ解析と表示
-            this.tvLog.Nodes.Clear();
-            var unbinedLogs = this.Logs.FindAll(log => !log.Conbined);
-            unbinedLogs.ForEach(log => this.AddLogForTreeView(this.tvLog, log));
-            this.tvLog.ExpandAll();
-            this.TopLogShow();
-        }
     }
 }

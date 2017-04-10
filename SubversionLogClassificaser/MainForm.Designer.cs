@@ -241,6 +241,7 @@
             this.txtMoreFilter.Name = "txtMoreFilter";
             this.txtMoreFilter.Size = new System.Drawing.Size(363, 19);
             this.txtMoreFilter.TabIndex = 18;
+            this.txtMoreFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMoreFilter_KeyDown);
             // 
             // btnMoreFiltering
             // 
